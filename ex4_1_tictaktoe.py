@@ -1,4 +1,5 @@
 import random
+import time
 from colorama import Fore
 
 
@@ -6,50 +7,81 @@ def show_game():
     for i in range(3):
         for j in range(3):
             if game[i][j]=='O':
-                print(Fore.RED + game[i][j] , end=' ')
+                print(Fore.RED + game[i][j] , Fore.RESET , end=' ')
             elif game[i][j]=='X':
-                print(Fore.GREEN + game[i][j] , end=' ')
+                print(Fore.GREEN + game[i][j] , Fore.RESET , end=' ')
             else:
-                print( game[i][j] , end=' ' )
+                print( game[i][j] , Fore.RESET , end=' ' )
 
         print(Fore.RESET)
 
 
-def check_win():
+def check_scor_x():
+    scor_x = 0
     for i in range(3):
         if game[i][0] == game[i][1] == game[i][2] == 'X':
-            print('player 1 wins')
-            exit()
+            scor_x = 1
+            break
         if game[0][i] == game[1][i] == game[2][i] == 'X':
-            print('player 1 wins')
-            exit()
+            scor_x = 1
+            break
         if game[0][0] == game[1][1] == game[2][2] == 'X':
-            print('player 1 wins')
-            exit()
+            scor_x = 1
+            break
         if game[0][2] == game[1][1] == game[2][0] == 'X':
-            print('player 1 wins')
-            exit()
-    
+            scor_x = 1
+            break
+    return scor_x
+
+def check_scor_o():
+    scor_o = 0
     for i in range(3):
         if game[i][0] == game[i][1] == game[i][2] == 'O':
-            print('player 2 wins')
-            exit()
+            scor_o = 1
+            break
         if game[0][i] == game[1][i] == game[2][i] == 'O':
-            print('player 2 wins')
-            exit()
+            scor_o = 1
+            break
         if game[0][0] == game[1][1] == game[2][2] == 'O':
-            print('player 2 wins')
-            exit()
+            scor_o = 1
+            break
         if game[0][2] == game[1][1] == game[2][0] == 'O':
-            print('player 2 wins')
-            exit()
+            scor_o = 1
+            break
+    return scor_o
 
+start = 0
+
+def check_win():
+    o = check_scor_o()
+    x = check_scor_x()
+           
+    if o > x:
+        print('o win')
+        print('Game time: ' + str(time.time()-start) , 's')
+        exit()
+    elif o < x:
+        print('x win')
+        print('Game time: ' + str(time.time()-start) , 's')
+        exit()
+    else:
+        flag = 1
+        for i in range(3):
+            for j in range(3):
+                if game[i][j]=='-':
+                    flag = 0
+        
+        if  flag ==1 and o == x:
+            print('mosavi')
+            print('Game time: ' + str(time.time()-start) , 's')
+            exit()
+     
 
 game = [['-' ,'-' , '-' ],
         ['-' ,'-' , '-' ],
         ['-' ,'-' , '-' ]]
-
-show_game()
+    
+start = time.time()
 
 choice = int(input('''Please Take a Choice:
 1.player 1  &  player 2
@@ -116,6 +148,8 @@ else :
         show_game()
         check_win()
         
+
+        
         #computer
         print('computer :') 
         while True:
@@ -129,4 +163,3 @@ else :
 
         show_game()
         check_win()
-
